@@ -3,6 +3,10 @@ base_image: java/v1.8_jessie
 build:
   - mvn clean install -DskipTests
 
+test:
+  unittest:
+    - echo 0
+
 artifacts:
   targets:
     - tarball
