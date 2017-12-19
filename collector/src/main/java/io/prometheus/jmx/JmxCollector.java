@@ -404,7 +404,14 @@ public class JmxCollector extends Collector implements Collector.Describable {
       }
 
       Receiver receiver = new Receiver();
-      JmxScraper scraper = new JmxScraper(config.jmxUrl, config.username, config.password, config.ssl, config.whitelistObjectNames, config.blacklistObjectNames, receiver);
+      Scraper scraper;
+      if (config.jmxUrl.startsWith("service:")) {
+        // for jmx srcaper
+        scraper = new JmxScraper(config.jmxUrl, config.username, config.password, config.ssl, config.whitelistObjectNames, config.blacklistObjectNames, receiver);
+      } else {
+        // for json scraper
+        scraper = new JmxJsonScraper(config.jmxUrl, config.whitelistObjectNames, config.blacklistObjectNames, receiver);
+      }
       long start = System.nanoTime();
       double error = 0;
       if ((config.startDelaySeconds > 0) &&

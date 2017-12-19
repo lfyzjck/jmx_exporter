@@ -32,7 +32,7 @@ import javax.naming.Context;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 
-public class JmxScraper {
+public class JmxScraper extends Scraper{
     private static final Logger logger = Logger.getLogger(JmxScraper.class.getName());;
     private static final Pattern PROPERTY_PATTERN = Pattern.compile(
             "([^,=:\\*\\?]+)" + // Name - non-empty, anything but comma, equals, colon, star, or question mark
@@ -52,23 +52,10 @@ public class JmxScraper {
                 "[^,=:\"]*" + // Unquoted - can be empty, anything but comma, equals, colon, or quote
             ")");
 
-    public static interface MBeanReceiver {
-        void recordBean(
-            String domain,
-            LinkedHashMap<String, String> beanProperties,
-            LinkedList<String> attrKeys,
-            String attrName,
-            String attrType,
-            String attrDescription,
-            Object value);
-    }
-
-    private MBeanReceiver receiver;
     private String jmxUrl;
     private String username;
     private String password;
     private boolean ssl;
-    private List<ObjectName> whitelistObjectNames, blacklistObjectNames;
 
     public JmxScraper(String jmxUrl, String username, String password, boolean ssl, List<ObjectName> whitelistObjectNames, List<ObjectName> blacklistObjectNames, MBeanReceiver receiver) {
         this.jmxUrl = jmxUrl;
@@ -85,6 +72,7 @@ public class JmxScraper {
       *
       * Values are passed to the receiver in a single thread.
       */
+    @Override
     public void doScrape() throws Exception {
         MBeanServerConnection beanConn;
         JMXConnector jmxc = null;
