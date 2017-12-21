@@ -1,0 +1,10 @@
+hostPort: localhost:8008
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+blacklistObjectNames: ["org.apache.derby:*", "org.apache.logging.log4j2:*", "com.jolbox.bonecp:*"]
+
+rules:
+- pattern: 'metrics<name=(.+)><>(Count|Value)'
+  name: hive_metastore_metrics_$1_$2
+
+- pattern: "java.lang.*"
