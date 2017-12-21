@@ -1,0 +1,11 @@
+jmxUrl: http://localhost:50070/jmx
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+blacklistObjectNames: ["org.apache.derby:*", "org.apache.logging.log4j2:*", "com.jolbox.bonecp:*"]
+
+rules:
+- pattern: 'Hadoop<service=(\w+), name=(\w+)><>(\w+)'
+  name: hadoop_$1_$2_$3
+
+- pattern: "java.lang.*"
+- pattern: "java.nio.*"
