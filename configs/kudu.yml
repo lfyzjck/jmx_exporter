@@ -1,0 +1,6 @@
+jmxUrl: http://kudu.in.zhihu.com/metrics
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+rules:
+- pattern: '.*'
